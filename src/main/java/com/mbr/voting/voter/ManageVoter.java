@@ -16,7 +16,7 @@ public class ManageVoter {
     }
 
     public Voter changeStatus(Long id, ChangeVoterStatusCommand changeVoterStatusCommand) {
-        Voter voter = voterRepository.findById(id)
+        var voter = voterRepository.findById(id)
                 .orElseThrow(() -> new ValidationException("Voter not found"));
         voter.setBlocked(changeVoterStatusCommand.blocked());
         return voterRepository.save(voter);

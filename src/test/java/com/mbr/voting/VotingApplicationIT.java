@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -36,41 +35,40 @@ class VotingApplicationIT {
 
     @Test
     void shouldCreateVoterElectionAndCastVote() throws Exception {
-        // 1. create voter
-        CreateVoterCommand createVoterCommand =
-                new CreateVoterCommand("John","Smith");
+        var createVoterCommand =
+                new CreateVoterCommand("John", "Smith");
 
-        MvcResult voterResult = mockMvc.perform(post("/api/v1/voters")
+        var voterResult = mockMvc.perform(post("/api/v1/voters")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createVoterCommand)))
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        Voter voter = objectMapper.readValue(
+        var voter = objectMapper.readValue(
                 voterResult.getResponse().getContentAsString(), Voter.class
         );
 
-        // 2. create election
-        CreateElectionCommand createElectionCommand =
+
+        var createElectionCommand =
                 new CreateElectionCommand(
                         "Presidential election",
-                        List.of("Option A","Option B")
+                        List.of("Option A", "Option B")
                 );
 
-        MvcResult electionResult = mockMvc.perform(post("/api/v1/elections")
+        var electionResult = mockMvc.perform(post("/api/v1/elections")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createElectionCommand)))
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        Election election = objectMapper.readValue(
+        var election = objectMapper.readValue(
                 electionResult.getResponse().getContentAsString(), Election.class
         );
 
-        Long optionId = election.getElectionOptions().getFirst().getId();
+        var optionId = election.getElectionOptions().getFirst().getId();
 
-        // 3. cast vote
-        CastVoteCommand castVoteCommand =
+
+        var castVoteCommand =
                 new CastVoteCommand(
                         voter.getId(),
                         election.getId(),

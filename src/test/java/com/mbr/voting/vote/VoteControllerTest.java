@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(VoteController.class)
 @Import(GlobalExceptionHandler.class)
 class VoteControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -36,7 +37,7 @@ class VoteControllerTest {
         // given
         var castVoteCommand = new CastVoteCommand(1L, 10L, 100L);
 
-        Vote vote = new Vote();
+        var vote = new Vote();
         vote.setId(1L);
 
         when(castVote.execute(any(CastVoteCommand.class)))
@@ -53,7 +54,7 @@ class VoteControllerTest {
     @Test
     void shouldReturn403WhenVoterIsBlocked() throws Exception {
         // given
-        CastVoteCommand command = new CastVoteCommand(1L, 10L, 100L);
+        var command = new CastVoteCommand(1L, 10L, 100L);
 
         when(castVote.execute(any(CastVoteCommand.class)))
                 .thenThrow(new BusinessException("Voter is blocked"));
@@ -69,7 +70,7 @@ class VoteControllerTest {
     @Test
     void shouldReturn403WhenVoterAlreadyVoted() throws Exception {
         // given
-        CastVoteCommand command = new CastVoteCommand(1L, 10L, 100L);
+        var command = new CastVoteCommand(1L, 10L, 100L);
 
         when(castVote.execute(any(CastVoteCommand.class)))
                 .thenThrow(new BusinessException("Voter already voted in this election"));
@@ -86,7 +87,7 @@ class VoteControllerTest {
     @Test
     void shouldReturn400WhenElectionNotFound() throws Exception {
         // given
-        CastVoteCommand command = new CastVoteCommand(1L, 10L, 100L);
+        var command = new CastVoteCommand(1L, 10L, 100L);
 
         when(castVote.execute(any(CastVoteCommand.class)))
                 .thenThrow(new ValidationException("Election not found"));
