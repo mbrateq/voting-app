@@ -21,80 +21,38 @@ integracyjnego oraz użycia w pamięci bazy danych H2 dla testów i dewelopmentu
 
 ## 📦 Struktura projektu
 
-.
+```text
 └── com
-└── mbr
-└── voting
-├── VotingAppApplication.java
-├── election
-├── CreateElection.java
-├── Election.java
-├── ElectionController.java
-├── ElectionOption.java
-├── ElectionRepository.java
-└── dto
-└── CreateElectionCommand.java
-├── exception
-├── BusinessException.java
-└── GlobalExceptionHandler.java
-├── vote
-├── CastVote.java
-├── Vote.java
-├── VoteController.java
-├── VoteRepository.java
-└── dto
-└── CastVoteCommand.java
-└── voter
-├── ManageVoter.java
-├── Voter.java
-├── VoterController.java
-├── VoterRepository.java
-└── dto
-├── ChangeVoterStatusCommand.java
-└── CreateVoterCommand.java
-
-- `controller/` – warstwa REST API
-- `service/` – logika biznesowa
-- `repository/` – warstwa dostępu do danych
-- `model/` – encje JPA
-- `dto/` – obiekty transferowe, używane w API
-
----
-
-## 🧪 Test Strategy
-
-Projekt posiada **kompletną strategię testowania**, zgodną z podejściem **unit → slice → integration**.
-
-### 1. Unit tests
-
-- Testy logiki biznesowej w `service/`
-- Użycie **Mockito** do mockowania repozytoriów
-- Pokrywają najważniejsze reguły biznesowe, np.:
-    - nie można utworzyć wyborów bez opcji
-    - jeden użytkownik może oddać tylko jeden głos
-
-### 2. Slice tests (WebMvcTest)
-
-- Testy kontrolerów REST API
-- Sprawdzają:
-    - poprawność endpointów (`200 / 201 / 400 / 404`)
-    - mapowanie JSON ⇄ DTO
-    - walidację danych wejściowych (`@Valid`)
-
-### 3. Integration tests (`@SpringBootTest`)
-
-- Testy integracyjne pełnej warstwy JPA + Spring Boot
-- Użycie **H2 in-memory** jako bazy testowej (`create-drop`)
-- Testy CRUD dla encji Election + ElectionOption
-- Profile `test` używane poprzez `@ActiveProfiles("test")`
-- Dzięki H2 w trybie PostgreSQL możliwe jest użycie `@SequenceGenerator` identycznie jak w Postgresie produkcyjnie
-
-### 4. Test Coverage & Best Practices
-
-- Testy koncentrują się na **decyzjach biznesowych**, nie na getterach/setterach
-- Testy izolują logikę od frameworka tam, gdzie to możliwe (unit)
-- Testy integracyjne zapewniają, że **REST API, JPA i baza działają razem**
-
+    └── mbr
+        └── voting
+            ├── VotingAppApplication.java
+            ├── election
+            │   ├── CreateElection.java
+            │   ├── Election.java
+            │   ├── ElectionController.java
+            │   ├── ElectionOption.java
+            │   ├── ElectionRepository.java
+            │   └── dto
+            │       └── CreateElectionCommand.java
+            ├── exception
+            │   ├── BusinessException.java
+            │   └── GlobalExceptionHandler.java
+            ├── vote
+            │   ├── CastVote.java
+            │   ├── Vote.java
+            │   ├── VoteController.java
+            │   ├── VoteRepository.java
+            │   └── dto
+            │       └── CastVoteCommand.java
+            └── voter
+                ├── ManageVoter.java
+                ├── Voter.java
+                ├── VoterController.java
+                ├── VoterRepository.java
+                └── dto
+                    ├── ChangeVoterStatusCommand.java
+                    └── CreateVoterCommand.java
+```
 ---
 
 ## ⚙️ Konfiguracja środowiska
